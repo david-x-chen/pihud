@@ -49,7 +49,7 @@ def main():
 
     # ============================ QT Application =============================
 
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     pihud = PiHud(global_config, connection)
 
     # ============================== GPIO Setup ===============================
