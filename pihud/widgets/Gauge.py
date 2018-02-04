@@ -62,6 +62,7 @@ class Gauge(QWidget):
         painter.setBrush(self.brush)
         painter.setRenderHint(QPainter.Antialiasing)
 
+        self.draw_sensorvalue(painter)
         self.draw_title(painter)
         if self.config["numerals"]:
             self.draw_multiplier(painter)
@@ -163,6 +164,14 @@ class Gauge(QWidget):
 
         painter.restore()
 
+    def draw_sensorvalue(self, painter):
+        painter.save()
+
+        r_height = self.config["font_size"] + 20
+        r = QRect(0, self.height() - 40, self.width(), r_height)
+        painter.drawText(r, Qt.AlignHCenter | Qt.AlignVCenter, self.value)
+
+        painter.restore()
 
     def draw_title(self, painter):
         painter.save()
