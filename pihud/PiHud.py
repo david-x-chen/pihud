@@ -21,7 +21,7 @@ class PiHud(QtWidgets.QMainWindow):
         # ================== Init Pages ===================
 
         self.pageMarker = PageMarker(self)
-        self.stack      = QtGui.QStackedWidget(self)
+        self.stack      = QtWidgets.QStackedWidget(self)
         self.setCentralWidget(self.stack)
 
         # read the config and make pages
@@ -30,7 +30,7 @@ class PiHud(QtWidgets.QMainWindow):
 
         # ================= Context Menu ==================
 
-        self.menu = QtGui.QMenu()
+        self.menu = QtWidgets.QMenu()
         subMenu = self.menu.addMenu("Add Widget")
 
         if len(self.connection.supported_commands) > 0:
