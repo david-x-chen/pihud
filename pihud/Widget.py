@@ -1,10 +1,10 @@
 
 import obd
 from widgets import widgets
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtWidgets
 
 
-class Widget(QtGui.QWidget):
+class Widget(QtWidgets.QWidget):
 
     def __init__(self, parent, config):
         super(Widget, self).__init__(parent)
