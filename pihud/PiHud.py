@@ -2,11 +2,11 @@
 from Page import Page
 from Widget import Widget
 from PageMarker import PageMarker
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtWidgets, QtCore
 
 
 
-class PiHud(QtGui.QMainWindow):
+class PiHud(QtWidgets.QMainWindow):
     def __init__(self, global_config, connection):
         super(PiHud, self).__init__()
         self.global_config = global_config

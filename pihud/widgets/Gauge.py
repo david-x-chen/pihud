@@ -2,7 +2,7 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-from pihud.util import scale, map_scale, map_value, scale_offsets, str_scale
+from widgets.util import scale, map_scale, map_value, scale_offsets, str_scale
 
 
 class Gauge(QWidget):

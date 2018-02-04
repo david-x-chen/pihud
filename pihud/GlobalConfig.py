@@ -52,8 +52,8 @@ class GlobalConfig():
                 try:
                     file_config = json.loads(raw_config_json)
                 except Exception as e:
-                    print "Invalid json in config:"
-                    print str(e)
+                    print("Invalid json in config:")
+                    print(str(e))
                     self.filename = "" # prevents save()ing
                     return
 
@@ -70,17 +70,17 @@ class GlobalConfig():
             for widget in page:
 
                 if "sensor" not in widget:
-                    print "widget definition missing 'sensor' attribute"
+                    print("widget definition missing 'sensor' attribute")
                     break
 
                 sensor = widget.pop("sensor").upper()
 
                 if sensor not in obd.commands:
-                    print "unknown sensor name '%s'" % widget["sensor"]
+                    print("unknown sensor name '%s'" % widget["sensor"])
                     break
 
                 if widget["type"] not in widgets:
-                    print "unknown sensor name '%s'" % widget["type"]
+                    print("unknown sensor name '%s'" % widget["type"])
                     break
 
                 config = self.make_config(obd.commands[sensor])

@@ -1,8 +1,8 @@
 
-from PyQt4 import QtGui, QtCore
+from PyQt5 import QtWidgets, QtCore
 
 
-class PageMarker(QtGui.QWidget):
+class PageMarker(QtWidgets.QWidget):
     def __init__(self, parent):
         super(PageMarker, self).__init__(parent)
 

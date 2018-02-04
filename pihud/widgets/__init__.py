@@ -1,7 +1,8 @@
 
 import os
 import inspect
-from PyQt5 import QtGui
+import importlib
+from PyQt5 import QtWidgets
 
 
 # the final dict for storing classes by classname
@@ -19,7 +20,9 @@ for f in os.listdir(os.path.dirname(__file__)):
         continue
 
     # import the module
-    module = __import__(name, locals(), globals())
+    #module = __import__(name, globals(), locals())
+    name = 'widgets.' + name
+    module = importlib.import_module(name)
 
     # search each modules dict for classes that implement QWidget
     for key in module.__dict__:
@@ -28,5 +31,5 @@ for f in os.listdir(os.path.dirname(__file__)):
         if not inspect.isclass(e):
             continue
 
-        if issubclass(e, QtGui.QWidget):
+        if issubclass(e, QtWidgets.QWidget):
             widgets[key] = e
