@@ -55,11 +55,12 @@ class Bar_Horizontal(QWidget):
         painter.setPen(self.pen)
         painter.setRenderHint(QPainter.Antialiasing)
 
-        self.draw_sensorvalue(painter)
-        if not self.config["title"]:
-            self.draw_title(painter)
+        #self.draw_sensorvalue(painter)
+        #self.draw_title(painter)
         self.draw_border(painter)
         self.draw_bar(painter)
+        self.draw_sensorvalue(painter)
+        self.draw_title(painter)
 
         painter.end()
 
@@ -71,8 +72,11 @@ class Bar_Horizontal(QWidget):
         # recompute new values
         self.l = 2            # left X value
         self.r = w - self.l # right X value
+        
         self.t_height = self.config["font_size"] + 8
-        self.bar_height = max(0, h - self.t_height) - self.l
+
+        #self.bar_height = max(0, h - self.t_height) - self.l
+        self.bar_height = max(0, h) - self.l
         self.value_offset = map_value(self.value,
                                         self.config["min"],
                                         self.config["max"],
@@ -89,16 +93,23 @@ class Bar_Horizontal(QWidget):
     def draw_sensorvalue(self, painter):
         painter.save()
 
-        painter.setPen(QPen(QColor("#FFFFFF")))
-        r = QRect(0, self.t_height, self.width(), self.t_height)
-        painter.drawText(r, Qt.AlignVCenter, str(int(self.value)))
+        fontBold = self.note_font
+        fontBold.setBold(True)
+        painter.setFont(fontBold)
+        painter.setPen(QPen(QColor(255, 255, 255)))
+        r = QRect(0, 0, self.width(), self.t_height)
+        painter.drawText(r, Qt.AlignHCenter | Qt.AlignVCenter, str(int(self.value)) + " " + self.config["unit"])
+
+        fontBold.setBold(False)
 
         painter.restore()
 
     def draw_title(self, painter):
         painter.save()
 
-        r = QRect(0, 0, self.width(), self.t_height)
+        painter.setFont(self.note_font)
+        painter.setPen(QPen(QColor(255, 255, 255)))
+        r = QRect(3, 0, self.width(), self.t_height)
         painter.drawText(r, Qt.AlignVCenter, self.config["title"])
 
         painter.restore()
@@ -106,7 +117,7 @@ class Bar_Horizontal(QWidget):
 
     def draw_border(self, painter):
         painter.save()
-        painter.translate(0, self.t_height)
+        painter.translate(0, 0)#self.t_height)
 
         if in_range(self.red_offset, self.l, self.r):
             # non-red zone
@@ -141,7 +152,7 @@ class Bar_Horizontal(QWidget):
 
     def draw_bar(self, painter):
         painter.save()
-        painter.translate(0, self.t_height)
+        painter.translate(0, 0,)#self.t_height)
         painter.setPen(self.no_pen)
         painter.setBrush(self.brush)
 

@@ -167,16 +167,27 @@ class Gauge(QWidget):
     def draw_sensorvalue(self, painter):
         painter.save()
         
+        fontBold = self.font
+        fontBold.setBold(True)
+
+        fontSize = self.config["font_size"]
+        fontBold.setPixelSize(fontSize * 1.5)
+        painter.setFont(fontBold)
         painter.setPen(QPen(QColor(0, 255, 0)))
+
         r_height = self.config["font_size"] + 20
         r = QRect(0, self.height() - r_height - 40, self.width(), r_height)
         painter.drawText(r, Qt.AlignHCenter | Qt.AlignVCenter, str(int(self.value)))
+
+        fontBold.setBold(False)
+        fontBold.setPixelSize(fontSize)
 
         painter.restore()
 
     def draw_title(self, painter):
         painter.save()
 
+        painter.setFont(self.note_font)
         r_height = self.config["font_size"] + 20
         r = QRect(0, self.height() - r_height, self.width(), r_height)
         painter.drawText(r, Qt.AlignHCenter | Qt.AlignVCenter, self.config["title"])

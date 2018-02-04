@@ -21,6 +21,7 @@ class Config():
             ("sensor",      ""          ),
             ("type",        _class_name ),
             ("title",       ""          ),
+            ("unit",        ""          ),
             ("x",           0           ),
             ("y",           0           ),
             ("w",           None        ), # default sizes are set by each widget's sizeHint()

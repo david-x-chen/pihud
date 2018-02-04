@@ -50,20 +50,35 @@ class Text(QWidget):
         painter = QPainter()
         painter.begin(self)
 
-        self.t_height = self.config["font_size"] + 8
+        f_h = self.config["font_size"]
+        self.t_height = f_h + 8
 
-        painter.setFont(self.font)
+        painter.setFont(self.note_font)
         painter.setPen(self.pen)
         painter.setRenderHint(QPainter.Antialiasing)
 
         h = 0
-
-        if len(self.config["title"]) > 0:
+        w = 0
+        t_len = len(self.config["title"])
+        if t_len > 0:
             h += self.t_height
+            w += f_h * t_len
             r = QRect(0, 0, self.width(), self.t_height)
             painter.drawText(r, Qt.AlignVCenter, self.config["title"])
 
-        r = QRect(0, h, self.width(), self.t_height)
-        painter.drawText(r, Qt.AlignVCenter, str(int(round(self.value))))
+        fontBold = self.note_font
+        fontBold.setBold(True)
+        painter.setFont(fontBold)
+        painter.setPen(QPen(QColor(255, 255, 5)))
+        r = QRect(w, 0, self.width(), self.t_height)
+
+        #if self.value.MIL:
+        #    painter.drawText(r, Qt.AlignVCenter, str(self.value.MIL))
+        #else: 
+        #    painter.drawText(r, Qt.AlignVCenter, str(int(round(self.value))) + " " + self.config["unit"])
+
+        painter.drawText(r, Qt.AlignVCenter, str(int(round(self.value))) + " " + self.config["unit"])
+
+        fontBold.setBold(False)
 
         painter.end()
