@@ -1,7 +1,7 @@
 
 import obd
 from widgets import widgets
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets, QtGui
 
 
 class Widget(QtWidgets.QWidget):
