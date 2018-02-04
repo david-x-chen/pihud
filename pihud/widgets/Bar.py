@@ -55,7 +55,9 @@ class Bar_Horizontal(QWidget):
         painter.setPen(self.pen)
         painter.setRenderHint(QPainter.Antialiasing)
 
-        self.draw_title(painter)
+        self.draw_sensorvalue(painter)
+        if not self.config["title"]:
+            self.draw_title(painter)
         self.draw_border(painter)
         self.draw_bar(painter)
 
@@ -84,6 +86,14 @@ class Bar_Horizontal(QWidget):
                                           self.l,
                                           self.r)
 
+    def draw_sensorvalue(self, painter):
+        painter.save()
+
+        painter.setPen(QPen(QColor("#FFFFFF")))
+        r = QRect(0, self.t_height, self.width(), self.t_height)
+        painter.drawText(r, Qt.AlignVCenter, str(int(self.value)))
+
+        painter.restore()
 
     def draw_title(self, painter):
         painter.save()
@@ -213,4 +223,3 @@ class Bar_Vertical(Bar_Horizontal):
         painter.drawText(r, Qt.AlignVCenter, self.config["title"])
 
         painter.restore()
-
