@@ -27,6 +27,12 @@ class Text(QWidget):
         self.red_pen   = QPen(self.red_color)
         self.no_pen    = QPen(self.no_color)
 
+        self.font_db   = QFontDatabase()
+        self.font_id   = self.font_db.addApplicationFont(config["custom_font"])
+        self.font_families = self.font_db.applicationFontFamilies(self.font_id)
+        self.led_font  = QFont(self.font_families[0]) #"Digital Dismay")
+        self.led_font.setPixelSize(self.config["font_size"])
+
         self.font.setPixelSize(self.config["font_size"])
         self.note_font.setPixelSize(self.config["note_font_size"])
         self.pen.setWidth(3)
@@ -98,6 +104,13 @@ class Text(QWidget):
                 textValue = ':'.join('{}{}'.format(value, name)
                                       for name, value in periods
                                       if value)
+
+            if self.config["led_style"]:
+                #painter.setBackground(self.color)
+                #painter.setBackgroundMode(1)
+                painter.setFont(self.led_font)
+            else:
+                painter.setFont(fontBold)
 
             textWidth = 0
             if len(textValue):
