@@ -98,7 +98,7 @@ class Bar_Horizontal(QWidget):
         painter.setFont(fontBold)
         painter.setPen(QPen(QColor(255, 255, 255)))
 
-        y = 4 - self.bar_height / 2
+        y = 8 - self.bar_height / 2
         r = QRect(0, y, self.width(), self.t_height)
         painter.drawText(r, Qt.AlignHCenter | Qt.AlignVCenter, str(int(self.value)) + " " + self.config["unit"])
 
@@ -112,7 +112,7 @@ class Bar_Horizontal(QWidget):
         painter.setFont(self.note_font)
         painter.setPen(QPen(QColor(255, 255, 255)))
 
-        y = 2 - self.bar_height / 2
+        y = 6 - self.bar_height / 2
         r = QRect(3, y, self.width(), self.t_height)
         painter.drawText(r, Qt.AlignVCenter, self.config["title"])
 

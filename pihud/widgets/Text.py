@@ -105,7 +105,7 @@ class Text(QWidget):
                                       for name, value in periods
                                       if value)
 
-            if self.config["led_style"]:
+            if self.config["led_style"] and self.config["sensor"] != "FUEL_RATE":
                 #painter.setBackground(self.color)
                 #painter.setBackgroundMode(1)
                 painter.setFont(self.led_font)
@@ -115,7 +115,7 @@ class Text(QWidget):
             textWidth = 0
             if len(textValue):
                 textWidth = len(textValue) * self.t_height
-            r = QRect(x, 0, textWidth, self.t_height)
+            r = QRect(x + 8, 0, textWidth, self.t_height)
             painter.drawText(r, Qt.AlignVCenter, textValue)
 
         #painter.drawText(r, Qt.AlignVCenter, str(int(round(self.value))) + " " + self.config["unit"])

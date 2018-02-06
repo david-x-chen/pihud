@@ -150,6 +150,9 @@ class Gauge(QWidget):
     def draw_needle(self, painter):
         painter.save()
 
+        if self.value >= self.config["redline"]:
+            painter.setPen(self.red_pen)
+
         painter.translate(self.width() / 2, self.height() / 2)
         angle = map_value(self.value, self.config["min"], self.config["max"], 0, 270)
         angle = min(angle, 270)
@@ -195,6 +198,9 @@ class Gauge(QWidget):
             painter.setFont(self.led_font)
         else:
             painter.setFont(fontBold)
+
+        if self.value >= self.config["redline"]:
+            painter.setPen(self.red_pen)
 
         r_height = self_fontSize + 20
         r = QRect(0, self.height() - r_height * 1.5, self.width(), r_height)
