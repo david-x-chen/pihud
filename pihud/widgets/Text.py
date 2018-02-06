@@ -1,10 +1,10 @@
+# -*- coding: utf-8 -*-
 
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 
 from widgets.util import map_value, in_range
-
 
 class Text(QWidget):
     def __init__(self, parent, config):
@@ -42,7 +42,10 @@ class Text(QWidget):
 
 
     def render(self, response):
-        self.value = response.value.magnitude
+        if hasattr(response.value, 'magnitude'):
+            self.value = response.value.magnitude
+        else:
+            self.value = response.value
         self.update()
 
 
@@ -58,7 +61,7 @@ class Text(QWidget):
         painter.setRenderHint(QPainter.Antialiasing)
 
         h = 0
-        w = 0
+        w = 8
         t_len = len(self.config["title"])
         if t_len > 0:
             h += self.t_height
@@ -69,15 +72,40 @@ class Text(QWidget):
         fontBold = self.note_font
         fontBold.setBold(True)
         painter.setFont(fontBold)
-        painter.setPen(QPen(QColor(255, 255, 5)))
-        r = QRect(w, 0, self.width(), self.t_height)
 
-        #if self.value.MIL:
-        #    painter.drawText(r, Qt.AlignVCenter, str(self.value.MIL))
-        #else: 
-        #    painter.drawText(r, Qt.AlignVCenter, str(int(round(self.value))) + " " + self.config["unit"])
+        x = w - f_h
+        if w <= 8:
+            x = 0
+        if hasattr(self.value, 'MIL'):
+            faultyText = ""
+            if self.value.MIL:
+                painter.setPen(QPen(self.color))
+                painter.setBackgroundMode(1)
+                painter.setBackground(self.red_brush)
+                faultyText = "故障"
+            else:
+                painter.setPen(QPen(self.color))
+            r = QRect(x, 0, self.width(), self.t_height)
+            painter.drawText(r, Qt.AlignVCenter, faultyText)
+        else:
+            painter.setPen(QPen(QColor(255, 255, 5)))
+            textValue = str(int(round(self.value))) + " " + self.config["unit"]
 
-        painter.drawText(r, Qt.AlignVCenter, str(int(round(self.value))) + " " + self.config["unit"])
+            if self.config["sensor"] == 'RUN_TIME':
+                minutes, seconds = divmod(self.value, 60)
+                hours, minutes = divmod(minutes, 60)
+                periods = [("", hours), ("", minutes), ("", seconds)]
+                textValue = ':'.join('{}{}'.format(value, name)
+                                      for name, value in periods
+                                      if value)
+
+            textWidth = 0
+            if len(textValue):
+                textWidth = len(textValue) * self.t_height
+            r = QRect(x, 0, textWidth, self.t_height)
+            painter.drawText(r, Qt.AlignVCenter, textValue)
+
+        #painter.drawText(r, Qt.AlignVCenter, str(int(round(self.value))) + " " + self.config["unit"])
 
         fontBold.setBold(False)
 

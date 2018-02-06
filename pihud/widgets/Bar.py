@@ -70,9 +70,9 @@ class Bar_Horizontal(QWidget):
         h = self.height()
 
         # recompute new values
-        self.l = 2            # left X value
+        self.l = 1            # left X value
         self.r = w - self.l # right X value
-        
+
         self.t_height = self.config["font_size"] + 8
 
         #self.bar_height = max(0, h - self.t_height) - self.l
@@ -97,7 +97,9 @@ class Bar_Horizontal(QWidget):
         fontBold.setBold(True)
         painter.setFont(fontBold)
         painter.setPen(QPen(QColor(255, 255, 255)))
-        r = QRect(0, 0, self.width(), self.t_height)
+
+        y = 4 - self.bar_height / 2
+        r = QRect(0, y, self.width(), self.t_height)
         painter.drawText(r, Qt.AlignHCenter | Qt.AlignVCenter, str(int(self.value)) + " " + self.config["unit"])
 
         fontBold.setBold(False)
@@ -109,7 +111,9 @@ class Bar_Horizontal(QWidget):
 
         painter.setFont(self.note_font)
         painter.setPen(QPen(QColor(255, 255, 255)))
-        r = QRect(3, 0, self.width(), self.t_height)
+
+        y = 2 - self.bar_height / 2
+        r = QRect(3, y, self.width(), self.t_height)
         painter.drawText(r, Qt.AlignVCenter, self.config["title"])
 
         painter.restore()
@@ -117,7 +121,7 @@ class Bar_Horizontal(QWidget):
 
     def draw_border(self, painter):
         painter.save()
-        painter.translate(0, 0)#self.t_height)
+        painter.translate(0, 0) #self.t_height)
 
         if in_range(self.red_offset, self.l, self.r):
             # non-red zone
@@ -152,7 +156,7 @@ class Bar_Horizontal(QWidget):
 
     def draw_bar(self, painter):
         painter.save()
-        painter.translate(0, 0,)#self.t_height)
+        painter.translate(0, 0) #self.t_height)
         painter.setPen(self.no_pen)
         painter.setBrush(self.brush)
 
