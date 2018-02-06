@@ -23,6 +23,7 @@ setup(
     license="GNU LGPLv2.1",
     packages=find_packages(),
     include_package_data=True,
+    package_data={'': ['*.otf']},
     zip_safe=False,
     install_requires=["obd"],
 )

@@ -22,8 +22,9 @@ class Gauge(QWidget):
         self.red_pen   = QPen(self.red_color)
 
         self.font_db   = QFontDatabase()
-        self.font_id   = font_db.addApplicationFont(config["custom_font"])
-        self.led_font  = QFont("Digital Dismay")
+        self.font_id   = self.font_db.addApplicationFont(config["custom_font"])
+        self.font_families = self.font_db.applicationFontFamilies(self.font_id)
+        self.led_font  = QFont(self.font_families[0]) #"Digital Dismay")
         self.led_font.setPixelSize(self.config["font_size"])
 
         self.font.setPixelSize(self.config["font_size"])
@@ -176,17 +177,27 @@ class Gauge(QWidget):
         fontBold.setBold(True)
 
         fontSize = self.config["font_size"]
+        self_fontSize = fontSize
         fontBold.setPixelSize(fontSize * 1.5)
 
-        if config["led_style"]:
+        if self.config["led_style"]:
+            #painter.setBackground(self.color)
+            #painter.setBackgroundMode(1)
+            if self.config["sensor"] == "SPEED":
+                self_fontSize = fontSize * 4
+                self.led_font.setPixelSize(self_fontSize)
+                painter.setPen(QPen(QColor(0, 255, 0)))
+            else:
+                self_fontSize = fontSize * 2
+                self.led_font.setPixelSize(self_fontSize)
+                painter.setPen(QPen(QColor(255, 255, 255)))
+
             painter.setFont(self.led_font)
         else:
             painter.setFont(fontBold)
 
-        painter.setPen(QPen(QColor(0, 255, 0)))
-
-        r_height = self.config["font_size"] + 20
-        r = QRect(0, self.height() - r_height - 40, self.width(), r_height)
+        r_height = self_fontSize + 20
+        r = QRect(0, self.height() - r_height * 1.5, self.width(), r_height)
         painter.drawText(r, Qt.AlignHCenter | Qt.AlignVCenter, str(int(self.value)))
 
         fontBold.setBold(False)
@@ -199,7 +210,7 @@ class Gauge(QWidget):
 
         painter.setFont(self.note_font)
         r_height = self.config["font_size"] + 20
-        r = QRect(0, self.height() - r_height, self.width(), r_height)
+        r = QRect(0, -self.width() / 4, self.width(), self.height())
         painter.drawText(r, Qt.AlignHCenter | Qt.AlignVCenter, self.config["title"])
 
         painter.restore()
