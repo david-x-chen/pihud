@@ -21,6 +21,8 @@ class GlobalConfig():
             ("redline_color",  "#FF3643"),
             ("font_size",      30       ),
             ("note_font_size", 20       ),
+            ("led_style",      False    ),
+            ("custom_font",    ""       ),
 
             ("pages",          [[]]     ),
         ])
@@ -98,7 +100,7 @@ class GlobalConfig():
 
     def save(self, pages_configs):
         """ write the config back to the file """
-        
+
         if os.path.isfile(self.filename):
 
             pages = []

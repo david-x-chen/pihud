@@ -21,6 +21,11 @@ class Gauge(QWidget):
         self.pen       = QPen(self.color)
         self.red_pen   = QPen(self.red_color)
 
+        self.font_db   = QFontDatabase()
+        self.font_id   = font_db.addApplicationFont(config["custom_font"])
+        self.led_font  = QFont("Digital Dismay")
+        self.led_font.setPixelSize(self.config["font_size"])
+
         self.font.setPixelSize(self.config["font_size"])
         self.note_font.setPixelSize(self.config["note_font_size"])
         self.pen.setWidth(3)
@@ -166,13 +171,18 @@ class Gauge(QWidget):
 
     def draw_sensorvalue(self, painter):
         painter.save()
-        
+
         fontBold = self.font
         fontBold.setBold(True)
 
         fontSize = self.config["font_size"]
         fontBold.setPixelSize(fontSize * 1.5)
-        painter.setFont(fontBold)
+
+        if config["led_style"]:
+            painter.setFont(self.led_font)
+        else:
+            painter.setFont(fontBold)
+
         painter.setPen(QPen(QColor(0, 255, 0)))
 
         r_height = self.config["font_size"] + 20

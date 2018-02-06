@@ -19,7 +19,8 @@ running_dir         = os.path.dirname(os.path.realpath(__file__))
 default_config_path = os.path.join(running_dir, 'default.rc')
 config_path         = os.path.join(os.path.expanduser('~'), 'pihud.rc')
 
-
+# custom font
+custom_font_path    = os.path.join(running_dir, 'fonts/digital-dismay/Digital Dismay.otf')
 
 def main():
     """ entry point """
@@ -35,7 +36,8 @@ def main():
             shutil.copyfile(default_config_path, config_path)
 
     global_config = GlobalConfig(config_path)
-
+    global_config["custom_font"] = custom_font_path
+    
     # =========================== OBD-II Connection ===========================
 
     if global_config["debug"]:

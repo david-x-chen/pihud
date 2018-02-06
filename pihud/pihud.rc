@@ -6,6 +6,7 @@
     "redline_color": "#FF3643",
     "font_size": 42,
     "note_font_size": 24,
+    "led_style": false,
     "pages": [
         [
             {
@@ -181,4 +182,3 @@
         ]
     ]
 }
-
