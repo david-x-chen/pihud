@@ -68,8 +68,8 @@ class Widget(QtWidgets.QWidget):
             mimeData.setText('%d,%d' % (e.x(), e.y()))
 
             # show the ghost image while dragging
-            pixmap = QtGui.QPixmap.grabWidget(self)
-            painter = QtGui.QPainter(pixmap)
+            pixmap = QtWidgets.QPixmap.grabWidget(self)
+            painter = QtWidgets.QPainter(pixmap)
             painter.fillRect(pixmap.rect(), QtGui.QColor(0, 0, 0, 127))
             painter.end()
 
