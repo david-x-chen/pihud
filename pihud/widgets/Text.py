@@ -95,7 +95,8 @@ class Text(QWidget):
             painter.drawText(r, Qt.AlignVCenter, faultyText)
         else:
             painter.setPen(QPen(QColor(255, 255, 5)))
-            textValue = str(int(round(self.value))) + " " + self.config["unit"]
+            #textValue = str(int(round(self.value))) + " " + self.config["unit"]
+            textValue = str(round(self.value, 2)) + " " + self.config["unit"]
 
             if self.config["sensor"] == 'RUN_TIME':
                 minutes, seconds = divmod(self.value, 60)
@@ -105,7 +106,7 @@ class Text(QWidget):
                                       for name, value in periods
                                       if value)
 
-            if self.config["led_style"] and self.config["sensor"] != "FUEL_RATE":
+            if self.config["led_style"] and self.config["sensor"] != "MAF":
                 #painter.setBackground(self.color)
                 #painter.setBackgroundMode(1)
                 painter.setFont(self.led_font)
