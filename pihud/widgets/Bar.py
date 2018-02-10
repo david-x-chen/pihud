@@ -100,7 +100,13 @@ class Bar_Horizontal(QWidget):
 
         y = 8 - self.bar_height / 2
         r = QRect(0, y, self.width(), self.t_height)
-        painter.drawText(r, Qt.AlignHCenter | Qt.AlignVCenter, str(int(self.value)) + " " + self.config["unit"])
+
+        sensorVal = self.value
+        if sensorVal < 1 and sensorVal > 0:
+            sensorVal = round(self.value, 2)
+        else:
+            sensorVal = int(self.value)
+        painter.drawText(r, Qt.AlignHCenter | Qt.AlignVCenter, str(sensorVal) + " " + self.config["unit"])
 
         fontBold.setBold(False)
 
