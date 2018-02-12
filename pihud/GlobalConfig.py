@@ -25,7 +25,7 @@ class GlobalConfig():
             ("conn_string",    ""       ),
             ("led_style",      False    ),
             ("custom_font",    ""       ),
-            ("dbConnection",   None),
+            ("dbConnection",   None     ),
 
             ("pages",          [[]]     ),
         ])
