@@ -65,3 +65,13 @@ All other settings are available in the pihud.rc file, which is structured in `j
 -   The `page_adv_pin` setting is used to tie the page cycling to any of the Pi’s GPIO pins. Simply wire a button that grounds the set pin while pressed.
 -   The `demo` key is used to feed a sin() curve into all widgets for testing.
 -   The `debug` key is used to turn python-OBD's debug printing on and off. If enabled, you will see OBD debug information being printed to `stderr`.
+
+
+PostgreSQL in Raspberry Pi 3:
+Docker:
+A: docker run --name cartracker -e POSTGRES_PASSWORD=mysecretpassword -d arm32v7/postgres
+B: docker run -d --name cartracker -e POSTGRES_PASSWORD=mysecretpassword arm32v7/postgres -c 'shared_buffers=256MB' -c 'max_connections=200' -c 'listen_addresses="*"'
+Connect with psql: docker run -it --rm --link cartracker:postgres arm32v7/postgres psql -h postgres -U postgres
+
+Python3 package for PostgreSQL:
+pip3 install psycopg2-binary

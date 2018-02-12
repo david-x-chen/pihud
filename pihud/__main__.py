@@ -6,6 +6,7 @@ import shutil
 from PiHud import PiHud
 from PyQt5 import QtGui, QtWidgets
 from GlobalConfig import GlobalConfig
+from dbconnection import DbConnection
 
 try:
     import RPi.GPIO as GPIO
@@ -37,7 +38,11 @@ def main():
 
     global_config = GlobalConfig(config_path)
     global_config["custom_font"] = custom_font_path
-    
+
+    # ========================== DB connection ================================
+    cursor = DbConnection.connect()
+    global_config["dbCursor"] = cursor
+
     # =========================== OBD-II Connection ===========================
 
     if global_config["debug"]:

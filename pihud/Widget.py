@@ -2,6 +2,7 @@
 import obd
 from widgets import widgets
 from PyQt5 import QtCore, QtWidgets, QtGui
+from dbconnection import DbConnection
 
 
 class Widget(QtWidgets.QWidget):
@@ -9,6 +10,8 @@ class Widget(QtWidgets.QWidget):
     def __init__(self, parent, config):
         super(Widget, self).__init__(parent)
         self.config = config
+
+        self.cursor = config["dbCursor"]
 
         # temporary coloring until display widgets get implemented
         # self.setAutoFillBackground(True)
@@ -95,4 +98,13 @@ class Widget(QtWidgets.QWidget):
 
     def render(self, response):
         if not response.is_null():
+            infoType = self.config["sensor"]
+            strValue = str(response.value)
+            numValue = 0
+            if hasattr(response.value, 'magnitude'):
+                numValue = response.value.magnitude
+            actValue = response.message
+
+            DbConnection.saveData(self.cursor, infotype=infoType, stringvalue=strValue, numericvalue=numValue, actualvalue=actValue)
+
             self.graphics.render(response)
