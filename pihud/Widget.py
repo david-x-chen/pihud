@@ -3,7 +3,7 @@ import obd
 from widgets import widgets
 from PyQt5 import QtCore, QtWidgets, QtGui
 from dbconnection import DbConnection
-
+import psycopg2
 
 class Widget(QtWidgets.QWidget):
 
@@ -11,7 +11,7 @@ class Widget(QtWidgets.QWidget):
         super(Widget, self).__init__(parent)
         self.config = config
 
-        self.cursor = config["dbCursor"]
+        self.dbConnection = config["dbConnection"]
 
         # temporary coloring until display widgets get implemented
         # self.setAutoFillBackground(True)
@@ -107,6 +107,8 @@ class Widget(QtWidgets.QWidget):
             if hasattr(response, 'message'):
                 actValue = response.message
 
-            DbConnection.saveData(self.cursor, infotype=infoType, stringvalue=strValue, numericvalue=numValue, actualvalue=actValue)
-
+            cur = self.dbConnection.cursor()
+            DbConnection.saveData(cur, infotype=infoType, stringvalue=strValue, numericvalue=numValue, actualvalue=actValue)
+            self.dbConnection.commit()
+            cur.close()
             self.graphics.render(response)

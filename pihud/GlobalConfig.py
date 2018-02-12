@@ -6,15 +6,12 @@ from collections import OrderedDict
 import obd
 from widgets import widgets
 from defaults import default_for
-
+from dbconnection import DbConnection
 
 class GlobalConfig():
     """ manages the structure of the config file """
 
     def __init__(self, filename):
-
-        # ========================== DB connection ================================
-        cursor = DbConnection.connect()
 
         self.filename = filename
         self.data = OrderedDict([
@@ -25,9 +22,10 @@ class GlobalConfig():
             ("redline_color",  "#FF3643"),
             ("font_size",      30       ),
             ("note_font_size", 20       ),
+            ("conn_string",    ""       ),
             ("led_style",      False    ),
             ("custom_font",    ""       ),
-            ("dbCursor",       cursor     ),
+            ("dbConnection",   None),
 
             ("pages",          [[]]     ),
         ])
