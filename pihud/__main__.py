@@ -39,6 +39,8 @@ def main():
     global_config = GlobalConfig(config_path)
     global_config["custom_font"] = custom_font_path
 
+    dbConnection = DbConnection.connect(global_config["conn_string"])
+    global_config["dbConnection"] = dbConnection
     # =========================== OBD-II Connection ===========================
 
     if global_config["debug"]:
@@ -75,7 +77,7 @@ def main():
     status = app.exec_() # blocks until application quit
 
     # ================================= Exit ==================================
-
+    dbConnection.close()
     connection.close()
     sys.exit(status)
 

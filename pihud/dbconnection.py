@@ -2,16 +2,15 @@
 import psycopg2
 
 class DbConnection():
-    def connect():
-        conn_string = "host='localhost' dbname='my_database' user='postgres' password='secret'"
+    def connect(conn_string):
+        #conn_string = "host='localhost' dbname='cartracker' user='pi' password='password'"
         conn = psycopg2.connect(conn_string)
-        cursor = conn.cursor()
-        return cursor
+        return conn
 
-    def saveData(cursor, infotype, stringvalue, numericvalue, actualvalue):
+    def saveData(cur, infotype, stringvalue, numericvalue, actualvalue):
         query = """
-        INSERT INTO public.obd2info(trackdate, infotype, stringvalue, numericvalue, actualvalue)
-        VALUES (NOW(), %s, %s, %s, %s)
+        INSERT INTO public.obd2info(infotype, stringvalue, numericvalue, actualvalue)
+        VALUES (%s, %s, %s, %s)
         """
         values = (infotype, stringvalue, numericvalue, actualvalue)
-        cursor.execute(query, values)
+        cur.execute(query, values)
