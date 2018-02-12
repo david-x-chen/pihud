@@ -12,6 +12,10 @@ class GlobalConfig():
     """ manages the structure of the config file """
 
     def __init__(self, filename):
+
+        # ========================== DB connection ================================
+        cursor = DbConnection.connect()
+
         self.filename = filename
         self.data = OrderedDict([
             ("debug",          False    ),
@@ -23,7 +27,7 @@ class GlobalConfig():
             ("note_font_size", 20       ),
             ("led_style",      False    ),
             ("custom_font",    ""       ),
-            ("dbCursor",       None     ),
+            ("dbCursor",       cursor     ),
 
             ("pages",          [[]]     ),
         ])

@@ -103,7 +103,9 @@ class Widget(QtWidgets.QWidget):
             numValue = 0
             if hasattr(response.value, 'magnitude'):
                 numValue = response.value.magnitude
-            actValue = response.message
+            actValue = ""
+            if hasattr(response, 'message'):
+                actValue = response.message
 
             DbConnection.saveData(self.cursor, infotype=infoType, stringvalue=strValue, numericvalue=numValue, actualvalue=actValue)
 
