@@ -23,6 +23,7 @@ class GlobalConfig():
             ("note_font_size", 20       ),
             ("led_style",      False    ),
             ("custom_font",    ""       ),
+            ("dbCursor",       None     ),
 
             ("pages",          [[]]     ),
         ])

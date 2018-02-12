@@ -3,10 +3,10 @@ import psycopg2
 
 class DbConnection():
     def connect():
-        	conn_string = "host='localhost' dbname='my_database' user='postgres' password='secret'"
-            conn = psycopg2.connect(conn_string)
-            cursor = conn.cursor()
-            return cursor
+        conn_string = "host='localhost' dbname='my_database' user='postgres' password='secret'"
+        conn = psycopg2.connect(conn_string)
+        cursor = conn.cursor()
+        return cursor
 
     def saveData(cursor, infotype, stringvalue, numericvalue, actualvalue):
         query = """
