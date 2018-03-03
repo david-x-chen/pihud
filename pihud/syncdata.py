@@ -38,44 +38,42 @@ class SyncData():
             self.connection = psycopg2.connect(conn_string)
 
     def startingDateUnix(self):
-        cursor = self.connection.cursor()
-        cursor.execute("SELECT EXTRACT(EPOCH FROM min(trackdate)::TIMESTAMP WITH TIME ZONE) FROM public.obd2info")
-        row = cursor.fetchone()
+        self.cursor.execute("SELECT EXTRACT(EPOCH FROM min(trackdate)::TIMESTAMP WITH TIME ZONE) FROM public.obd2info")
+        row = self.cursor.fetchone()
+        self.cursor.close()
 
         return float(row[0])
 
     def retrieveData(self, infotype, trackdateUnix):
-        cursor = self.connection.cursor()
-        cursor.execute("select EXTRACT(EPOCH FROM trackdate::TIMESTAMP WITH TIME ZONE), trackdate, infotype, stringvalue, numericvalue, actualvalue from obd2info where infotype=%s AND trackdate >= to_timestamp(%s) limit 10", (infotype, trackdateUnix))
+        self.cursor.execute("select EXTRACT(EPOCH FROM trackdate::TIMESTAMP WITH TIME ZONE), trackdate, infotype, stringvalue, numericvalue, actualvalue from obd2info where infotype=%s AND trackdate >= to_timestamp(%s) limit 10", (infotype, trackdateUnix))
         print("Row number:", cursor.rowcount)
-        row = cursor.fetchone()
+        row = self.cursor.fetchone()
         while row is not None:
             self.obdata.append(OBD2Data(row[0], row[1], row[2], row[3], row[4], row[5]))
-            row = cursor.fetchone()
-        cursor.close()
-        return self.obdata
+            row = self.cursor.fetchone()
+        self.cursor.close()
 
-    def toJson(self, infotype, trackdateUnix):
-        syncedData = self.retrieveData(infotype, trackdateUnix)
-        return json.dumps(syncedData.__dict__)
+        return self.obdata
 
     def postData(self):
         trackdateUnix = self.startingDateUnix();
         for t in self.requiredInfoTypes:
+            syncedData = self.retrieveData(infotype, trackdateUnix)
 
-            jsonStr = self.toJson(t, trackdateUnix)
+            for d in syncedData:
+                jsonStr = json.dumps(d.__dict__)
 
-            url = "https://dyntechsolution.info/car/cartracker/" + t
-            print(url)
-            data = jsonStr
+                url = "https://dyntechsolution.info/car/cartracker/" + t
+                print(url)
+                data = jsonStr
 
-            headers = {'Content-type': 'application/json'}
+                headers = {'Content-type': 'application/json'}
 
-            r = requests.post(url, headers=headers, json=data)
+                r = requests.post(url, headers=headers, json=data)
 
-            print(d.trackdateUnix)
-            cursor = self.connection.cursor()
-            self.connection.deleteData(d.infotype, d.trackdateUnix)
+                print(d.trackdateUnix)
+
+                self.connection.deleteData(self.cursor, d.infotype, d.trackdateUnix)
 
         return 200
 
