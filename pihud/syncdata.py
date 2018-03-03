@@ -46,7 +46,7 @@ class SyncData():
 
     def retrieveData(self, infotype, trackdateUnix):
         cursor = self.connection.cursor()
-        cursor.execute("select EXTRACT(EPOCH FROM trackdate::TIMESTAMP WITH TIME ZONE), trackdate, infotype, stringvalue, numericvalue, actualvalue from obd2info where infotype='%s' AND trackdate >= to_timestamp(%d) limit 10", (infotype, trackdateUnix))
+        cursor.execute("select EXTRACT(EPOCH FROM trackdate::TIMESTAMP WITH TIME ZONE), trackdate, infotype, stringvalue, numericvalue, actualvalue from obd2info where infotype=%s AND trackdate >= to_timestamp(%s) limit 10", (infotype, trackdateUnix))
         print("Row number:", cursor.rowcount)
         row = cursor.fetchone()
         while row is not None:
@@ -62,6 +62,7 @@ class SyncData():
     def postData(self):
         trackdateUnix = self.startingDateUnix();
         for t in self.requiredInfoTypes:
+
             jsonStr = self.toJson(t, trackdateUnix)
 
             url = "https://dyntechsolution.info/car/cartracker/" + t
@@ -72,7 +73,6 @@ class SyncData():
 
             r = requests.post(url, headers=headers, json=data)
 
-        for d in self.obdata:
             print(d.trackdateUnix)
             cursor = self.connection.cursor()
             self.connection.deleteData(d.infotype, d.trackdateUnix)
@@ -90,7 +90,7 @@ class OBD2Data:
 
         self.trackdateUnix = trackdateUnix
         self.trackdate     = trackdate
-        self.infotype      = infortype
+        self.infotype      = infotype
         self.stringvalue   = stringvalue
         self.numericvalue  = numericvalue
         self.actualvalue   = actualvalue
