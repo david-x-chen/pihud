@@ -14,3 +14,11 @@ class DbConnection():
         """
         values = (infotype, stringvalue, numericvalue, actualvalue)
         cur.execute(query, values)
+
+    def deleteData(cur, infotype, trackDateUnix)
+        query = """
+        DELETE FROM public.obd2info
+        WHERE infotype = '%s' AND trackdate <= to_timestamp(%d)
+        """
+        values = (infotype, trackDateUnix)
+        cur.execute(query, values)
