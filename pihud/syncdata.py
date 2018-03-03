@@ -78,7 +78,7 @@ class SyncData():
 
                 print(d.trackdateUnix)
 
-                self.connection.deleteData(self.cursor, d.infotype, d.trackdateUnix)
+                DbConnection.deleteData(self.cursor, d.infotype, d.trackdateUnix)
                 self.cursor.close()
 
         return 200
