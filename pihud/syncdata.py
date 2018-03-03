@@ -52,7 +52,7 @@ class SyncData():
         print("Row number:", self.cursor.rowcount)
         row = self.cursor.fetchone()
         while row is not None:
-            self.obdata.append(OBD2Data(row[0], row[1], row[2], row[3], row[4]))
+            self.obdata.append(OBD2Data(row[0], row[1], row[2], float(row[3]), row[4]))
             row = self.cursor.fetchone()
         self.cursor.close()
 
