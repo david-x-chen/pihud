@@ -46,24 +46,24 @@ class SyncData():
 
     def retrieveData(self, infotype, trackdateUnix):
         cursor = self.connection.cursor()
-        cursor.execute("select * from obd2info where infotype='%s' AND trackdate >= to_timestamp(%d) limit 10", (infotype, trackdateUnix))
+        cursor.execute("select EXTRACT(EPOCH FROM trackdate::TIMESTAMP WITH TIME ZONE), trackdate, infotype, stringvalue, numericvalue, actualvalue from obd2info where infotype='%s' AND trackdate >= to_timestamp(%d) limit 10", (infotype, trackdateUnix))
         print("Row number:", cursor.rowcount)
         row = cursor.fetchone()
         while row is not None:
-            self.obdata.append(OBD2Data(row[0], row[1], row[2], row[3], row[4]))
+            self.obdata.append(OBD2Data(row[0], row[1], row[2], row[3], row[4], row[5]))
             row = cursor.fetchone()
         cursor.close()
         return self.obdata
 
     def toJson(self, infotype, trackdateUnix):
-        syncedData = db.retrieveData(infotype, trackdateUnix)
+        syncedData = self.retrieveData(infotype, trackdateUnix)
         return json.dumps(syncedData.__dict__)
 
     def postData(self):
         trackdateUnix = self.startingDateUnix();
         for t in self.requiredInfoTypes:
             jsonStr = self.toJson(t, trackdateUnix)
-            print(jsonStr)
+
             url = "https://dyntechsolution.info/car/cartracker/" + t
             print(url)
             data = jsonStr
@@ -73,23 +73,27 @@ class SyncData():
             r = requests.post(url, headers=headers, json=data)
 
         for d in self.obdata:
-            print(d.trackdate)
+            print(d.trackdateUnix)
+            cursor = self.connection.cursor()
+            self.connection.deleteData(d.infotype, d.trackdateUnix)
 
         return 200
 
 class OBD2Data:
     def __init__(self,
-                 trackdate    = None,
-                 infotype     = None,
-                 stringvalue  = None,
-                 numericvalue = None,
-                 actualvalue  = None):
+                 trackdateUnix = None,
+                 trackdate     = None,
+                 infotype      = None,
+                 stringvalue   = None,
+                 numericvalue  = None,
+                 actualvalue   = None):
 
-        self.trackdate    = trackdate
-        self.infotype     = infortype
-        self.stringvalue  = stringvalue
-        self.numericvalue = numericvalue
-        self.actualvalue  = actualvalue
+        self.trackdateUnix = trackdateUnix
+        self.trackdate     = trackdate
+        self.infotype      = infortype
+        self.stringvalue   = stringvalue
+        self.numericvalue  = numericvalue
+        self.actualvalue   = actualvalue
 
 def main():
     db = SyncData()
