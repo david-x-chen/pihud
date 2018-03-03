@@ -49,7 +49,7 @@ class SyncData():
     def retrieveData(self, infotype, trackdateUnix):
         self.cursor = self.connection.cursor()
         self.cursor.execute("select EXTRACT(EPOCH FROM trackdate::TIMESTAMP WITH TIME ZONE), trackdate, infotype, stringvalue, numericvalue, actualvalue from obd2info where infotype=%s AND trackdate >= to_timestamp(%s) limit 10", (infotype, trackdateUnix))
-        print("Row number:", cursor.rowcount)
+        print("Row number:", self.cursor.rowcount)
         row = self.cursor.fetchone()
         while row is not None:
             self.obdata.append(OBD2Data(row[0], row[1], row[2], row[3], row[4], row[5]))
