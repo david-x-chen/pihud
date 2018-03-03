@@ -36,8 +36,10 @@ class SyncData():
 
         if self.connection is None:
             self.connection = psycopg2.connect(conn_string)
+            self.cursor = self.connection.cursor()
 
     def startingDateUnix(self):
+        self.cursor = self.connection.cursor()
         self.cursor.execute("SELECT EXTRACT(EPOCH FROM min(trackdate)::TIMESTAMP WITH TIME ZONE) FROM public.obd2info")
         row = self.cursor.fetchone()
         self.cursor.close()
@@ -45,6 +47,7 @@ class SyncData():
         return float(row[0])
 
     def retrieveData(self, infotype, trackdateUnix):
+        self.cursor = self.connection.cursor()
         self.cursor.execute("select EXTRACT(EPOCH FROM trackdate::TIMESTAMP WITH TIME ZONE), trackdate, infotype, stringvalue, numericvalue, actualvalue from obd2info where infotype=%s AND trackdate >= to_timestamp(%s) limit 10", (infotype, trackdateUnix))
         print("Row number:", cursor.rowcount)
         row = self.cursor.fetchone()
@@ -61,6 +64,7 @@ class SyncData():
             syncedData = self.retrieveData(infotype, trackdateUnix)
 
             for d in syncedData:
+                self.cursor = self.connection.cursor()
                 jsonStr = json.dumps(d.__dict__)
 
                 url = "https://dyntechsolution.info/car/cartracker/" + t
@@ -74,6 +78,7 @@ class SyncData():
                 print(d.trackdateUnix)
 
                 self.connection.deleteData(self.cursor, d.infotype, d.trackdateUnix)
+                self.cursor.close()
 
         return 200
 
