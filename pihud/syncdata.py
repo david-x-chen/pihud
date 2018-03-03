@@ -61,7 +61,7 @@ class SyncData():
     def postData(self):
         trackdateUnix = self.startingDateUnix();
         for t in self.requiredInfoTypes:
-            syncedData = self.retrieveData(infotype, trackdateUnix)
+            syncedData = self.retrieveData(t, trackdateUnix)
 
             for d in syncedData:
                 self.cursor = self.connection.cursor()
