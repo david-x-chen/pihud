@@ -67,7 +67,7 @@ class SyncData():
             for d in syncedData:
                 self.cursor = self.connection.cursor()
                 jsonStr = json.dumps(d.__dict__)
-
+                print(jsonStr)
                 url = "https://dyntechsolution.info/car/cartracker/" + t
                 print(url)
                 data = jsonStr
@@ -75,11 +75,11 @@ class SyncData():
                 headers = {'Content-type': 'application/json'}
 
                 r = requests.post(url, headers=headers, json=data)
-
+                print(r.json())
                 print(d.trackdateUnix)
 
-                DbConnection.deleteData(self.cursor, d.infotype, d.trackdateUnix)
-                self.cursor.close()
+                #DbConnection.deleteData(self.cursor, d.infotype, d.trackdateUnix)
+                #self.cursor.close()
 
         return 200
 
