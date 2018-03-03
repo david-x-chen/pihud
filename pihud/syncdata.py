@@ -62,8 +62,8 @@ class SyncData():
     def postData(self):
         trackdateUnix = self.startingDateUnix();
         for t in self.requiredInfoTypes:
-            jsonStr = toJson(t, trackdateUnix)
-
+            jsonStr = self.toJson(t, trackdateUnix)
+            print(jsonStr)
             url = "https://dyntechsolution.info/car/cartracker/" + t
             print(url)
             data = jsonStr
@@ -72,7 +72,10 @@ class SyncData():
 
             r = requests.post(url, headers=headers, json=data)
 
-            return r
+        for d in self.obdata:
+            print(d.trackdate)
+
+        return 200
 
 class OBD2Data:
     def __init__(self,
