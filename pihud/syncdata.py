@@ -48,11 +48,11 @@ class SyncData():
 
     def retrieveData(self, infotype, trackdateUnix):
         self.cursor = self.connection.cursor()
-        self.cursor.execute("select EXTRACT(EPOCH FROM trackdate::TIMESTAMP WITH TIME ZONE), trackdate, infotype, stringvalue, numericvalue, actualvalue from obd2info where infotype=%s AND trackdate >= to_timestamp(%s) limit 10", (infotype, trackdateUnix))
+        self.cursor.execute("select EXTRACT(EPOCH FROM trackdate::TIMESTAMP WITH TIME ZONE), infotype, stringvalue, numericvalue, actualvalue from obd2info where infotype=%s AND trackdate >= to_timestamp(%s) limit 10", (infotype, trackdateUnix))
         print("Row number:", self.cursor.rowcount)
         row = self.cursor.fetchone()
         while row is not None:
-            self.obdata.append(OBD2Data(row[0], row[1], row[2], row[3], row[4], row[5]))
+            self.obdata.append(OBD2Data(row[0], row[1], row[2], row[3], row[4]))
             row = self.cursor.fetchone()
         self.cursor.close()
 
@@ -85,14 +85,12 @@ class SyncData():
 class OBD2Data:
     def __init__(self,
                  trackdateUnix = None,
-                 trackdate     = None,
                  infotype      = None,
                  stringvalue   = None,
                  numericvalue  = None,
                  actualvalue   = None):
 
         self.trackdateUnix = trackdateUnix
-        self.trackdate     = trackdate
         self.infotype      = infotype
         self.stringvalue   = stringvalue
         self.numericvalue  = numericvalue
