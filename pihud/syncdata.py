@@ -36,7 +36,7 @@ class SyncData():
     		"CONTROL_MODULE_VOLTAGE", "TIMING_ADVANCE", "RUN_TIME"]
 
         if self.connection is None:
-            self.connection = dbconnection.connect(conn_string)
+            self.connection = DbConnection.connect(conn_string)
             self.cursor = self.connection.cursor()
 
     def startingDateUnix(self):
