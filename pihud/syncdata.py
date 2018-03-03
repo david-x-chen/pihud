@@ -60,7 +60,7 @@ class SyncData():
         return json.dumps(syncedData.__dict__)
 
     def postData(self):
-        trackdateUnix = startingDateUnix();
+        trackdateUnix = self.startingDateUnix();
         for t in self.requiredInfoTypes:
             jsonStr = toJson(t, trackdateUnix)
 
