@@ -3,6 +3,8 @@ import psycopg2
 import sys
 import json
 import requests
+import os
+from GlobalConfig import GlobalConfig
 
 # file paths
 running_dir         = os.path.dirname(os.path.realpath(__file__))
@@ -63,6 +65,7 @@ class SyncData():
             jsonStr = toJson(t, trackdateUnix)
 
             url = "https://dyntechsolution.info/car/cartracker/" + t
+            print(url)
             data = jsonStr
 
             headers = {'Content-type': 'application/json'}
