@@ -5,6 +5,7 @@ import json
 import requests
 import os
 from GlobalConfig import GlobalConfig
+from dbconnection import DbConnection
 
 # file paths
 running_dir         = os.path.dirname(os.path.realpath(__file__))
@@ -35,7 +36,7 @@ class SyncData():
     		"CONTROL_MODULE_VOLTAGE", "TIMING_ADVANCE", "RUN_TIME"]
 
         if self.connection is None:
-            self.connection = psycopg2.connect(conn_string)
+            self.connection = dbconnection.connect(conn_string)
             self.cursor = self.connection.cursor()
 
     def startingDateUnix(self):
