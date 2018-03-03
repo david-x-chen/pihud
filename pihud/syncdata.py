@@ -56,7 +56,7 @@ class SyncData():
         return self.obdata
 
     def toJson(self, infotype, trackdateUnix):
-        syncedData = db.retrieveData(infotype, trackdateUnix)
+        syncedData = self.retrieveData(infotype, trackdateUnix)
         return json.dumps(syncedData.__dict__)
 
     def postData(self):
