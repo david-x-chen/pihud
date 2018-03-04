@@ -48,6 +48,7 @@ class SyncData():
         return float(row[0])
 
     def retrieveData(self, infotype, trackdateUnix):
+        self.obdata = []
         self.cursor = self.connection.cursor()
         self.cursor.execute("select EXTRACT(EPOCH FROM trackdate::TIMESTAMP WITH TIME ZONE), infotype, stringvalue, numericvalue, actualvalue from obd2info where infotype=%s AND trackdate >= to_timestamp(%s) limit 10", (infotype, trackdateUnix))
         print("Row number:", self.cursor.rowcount)
@@ -69,7 +70,6 @@ class SyncData():
                 jsonStr = dumps(d.__dict__)
                 print(jsonStr)
                 url = "https://dyntechsolution.info/car/cartracker/" + t
-                #url = "http://192.168.139.218:8000/cartracker/" + t
                 print(url)
                 data = jsonStr
 
@@ -82,6 +82,8 @@ class SyncData():
 
                 DbConnection.deleteData(self.cursor, d.infotype, d.trackdateUnix)
                 self.cursor.close()
+
+            # load next round
 
         return 200
 
