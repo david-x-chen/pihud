@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import psycopg2
 import sys
-import json
+from json import dumps, loads, JSONEncoder, JSONDecoder
 import requests
 import os
 from GlobalConfig import GlobalConfig
@@ -66,20 +66,22 @@ class SyncData():
 
             for d in syncedData:
                 self.cursor = self.connection.cursor()
-                jsonStr = json.dumps(d.__dict__)
+                jsonStr = dumps(d.__dict__)
                 print(jsonStr)
                 url = "https://dyntechsolution.info/car/cartracker/" + t
+                #url = "http://192.168.139.218:8000/cartracker/" + t
                 print(url)
                 data = jsonStr
 
                 headers = {'Content-type': 'application/json'}
 
-                r = requests.post(url, headers=headers, json=data)
-                print(r.json())
+                r = requests.post(url, headers=headers, data=jsonStr)
+                print(r.content)
+                print(r.status_code)
                 print(d.trackdateUnix)
 
-                #DbConnection.deleteData(self.cursor, d.infotype, d.trackdateUnix)
-                #self.cursor.close()
+                DbConnection.deleteData(self.cursor, d.infotype, d.trackdateUnix)
+                self.cursor.close()
 
         return 200
 
