@@ -2,8 +2,8 @@
 import obd
 from widgets import widgets
 from PyQt5 import QtCore, QtWidgets, QtGui
-import psycopg2
 import syncdata
+import thread
 
 class Widget(QtWidgets.QWidget):
 
@@ -105,5 +105,6 @@ class Widget(QtWidgets.QWidget):
             if hasattr(response, 'message'):
                 actValue = response.message
 
-            syncdata.SyncData.postData(infotype=infoType, stringvalue=strValue, numericvalue=numValue, actualvalue=actValue)
+            thread.start_new_thread(syncdata.SyncData.postData,
+            (infotype=infoType, stringvalue=strValue, numericvalue=numValue, actualvalue=actValue))
             self.graphics.render(response)
