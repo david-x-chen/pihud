@@ -6,7 +6,6 @@ from collections import OrderedDict
 import obd
 from widgets import widgets
 from defaults import default_for
-from dbconnection import DbConnection
 
 class GlobalConfig():
     """ manages the structure of the config file """
@@ -25,7 +24,6 @@ class GlobalConfig():
             ("conn_string",    ""       ),
             ("led_style",      False    ),
             ("custom_font",    ""       ),
-            ("dbConnection",   None     ),
 
             ("pages",          [[]]     ),
         ])

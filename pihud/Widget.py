@@ -2,7 +2,6 @@
 import obd
 from widgets import widgets
 from PyQt5 import QtCore, QtWidgets, QtGui
-from dbconnection import DbConnection
 import psycopg2
 
 class Widget(QtWidgets.QWidget):
