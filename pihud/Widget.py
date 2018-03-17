@@ -105,5 +105,5 @@ class Widget(QtWidgets.QWidget):
             if hasattr(response, 'message'):
                 actValue = response.message
 
-            syncdata.postData(cur, infotype=infoType, stringvalue=strValue, numericvalue=numValue, actualvalue=actValue)
+            syncdata.SyncData.postData(cur, infotype=infoType, stringvalue=strValue, numericvalue=numValue, actualvalue=actValue)
             self.graphics.render(response)
