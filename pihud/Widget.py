@@ -3,6 +3,7 @@ import obd
 from widgets import widgets
 from PyQt5 import QtCore, QtWidgets, QtGui
 import psycopg2
+import syncdata
 
 class Widget(QtWidgets.QWidget):
 
@@ -104,8 +105,5 @@ class Widget(QtWidgets.QWidget):
             if hasattr(response, 'message'):
                 actValue = response.message
 
-            cur = self.dbConnection.cursor()
-            DbConnection.saveData(cur, infotype=infoType, stringvalue=strValue, numericvalue=numValue, actualvalue=actValue)
-            self.dbConnection.commit()
-            cur.close()
+            syncdata.postData(cur, infotype=infoType, stringvalue=strValue, numericvalue=numValue, actualvalue=actValue)
             self.graphics.render(response)

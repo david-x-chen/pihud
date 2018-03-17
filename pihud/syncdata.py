@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-import psycopg2
 import sys
 from json import dumps, loads, JSONEncoder, JSONDecoder
 import requests
