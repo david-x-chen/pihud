@@ -10,8 +10,6 @@ class Widget(QtWidgets.QWidget):
         super(Widget, self).__init__(parent)
         self.config = config
 
-        self.dbConnection = config["dbConnection"]
-
         # temporary coloring until display widgets get implemented
         # self.setAutoFillBackground(True)
         # palette = self.palette()
