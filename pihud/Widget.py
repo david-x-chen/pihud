@@ -3,7 +3,7 @@ import obd
 from widgets import widgets
 from PyQt5 import QtCore, QtWidgets, QtGui
 import syncdata
-import thread
+import _thread
 
 class Widget(QtWidgets.QWidget):
 
@@ -105,6 +105,5 @@ class Widget(QtWidgets.QWidget):
             if hasattr(response, 'message'):
                 actValue = response.message
 
-            thread.start_new_thread(syncdata.SyncData.postData,
-            (infotype=infoType, stringvalue=strValue, numericvalue=numValue, actualvalue=actValue))
+            #_thread.start_new_thread(syncdata.SyncData.postData, (infoType, strValue, numValue, actValue))
             self.graphics.render(response)
