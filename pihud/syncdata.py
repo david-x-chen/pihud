@@ -4,6 +4,7 @@ from json import dumps, loads, JSONEncoder, JSONDecoder
 import requests
 import os
 import time
+from collections import namedtuple
 
 class SyncData():
     def __init__(self):
@@ -29,16 +30,4 @@ class SyncData():
 
         return 200
 
-class OBD2Data:
-    def __init__(self,
-                 trackdateUnix = None,
-                 infotype      = None,
-                 stringvalue   = None,
-                 numericvalue  = None,
-                 actualvalue   = None):
-
-        self.trackdateUnix = trackdateUnix
-        self.infotype      = infotype
-        self.stringvalue   = stringvalue
-        self.numericvalue  = numericvalue
-        self.actualvalue   = actualvalue
+OBD2Data = namedtuple('OBD2Data', 'trackdateUnix infotype stringvalue numericvalue actualvalue')

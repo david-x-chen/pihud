@@ -22,9 +22,11 @@ class GlobalConfig():
             ("font_size",      30       ),
             ("note_font_size", 20       ),
             ("conn_string",    ""       ),
+            ("rmq_conn",       ""       ),
             ("led_style",      False    ),
             ("custom_font",    ""       ),
 
+            ("rmqpublisher",   None     ),
             ("pages",          [[]]     ),
         ])
         self.load()

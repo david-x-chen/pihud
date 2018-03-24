@@ -8,6 +8,7 @@
     "note_font_size": 20,
     "led_style": false,
     "conn_string": "host='localhost' dbname='cartracker' user='pi' password='password'",
+    "rmq_conn": "amqp://david:123456@localhost:5672/car?connection_attempts=3&heartbeat_interval=3600",
     "pages": [
         [
             {

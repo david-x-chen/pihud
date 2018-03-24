@@ -3,9 +3,12 @@ import os
 import sys
 import obd
 import shutil
+import logging
+import pika
 from PiHud import PiHud
 from PyQt5 import QtGui, QtWidgets
 from GlobalConfig import GlobalConfig
+from rmqpublisher import RMQPublisher
 
 try:
     import RPi.GPIO as GPIO
@@ -42,8 +45,19 @@ def main():
 
     if global_config["debug"]:
         obd.logger.setLevel(obd.logging.DEBUG) # enables all debug information
+        logging.basicConfig(level=logging.DEBUG, format=LOG_FORMAT)
 
     connection = obd.Async(global_config["port"])
+
+    # Connect to localhost:5672 as guest with the password guest and virtual host "/" (%2F)
+    rmq = RMQPublisher(global_config["rmq_conn"])
+
+    global_config["rmqpublisher"] = rmq
+
+    try:
+        rmq.run()
+    except KeyboardInterrupt:
+        rmq.stop()
 
     # if global_config["debug"]:
     #     for i in range(32):

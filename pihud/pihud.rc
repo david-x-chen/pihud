@@ -7,6 +7,7 @@
     "font_size": 36,
     "note_font_size": 24,
     "led_style": true,
+    "rmq_conn": "amqp://david:123456@localhost:5672/car?connection_attempts=3&heartbeat_interval=3600",
     "pages": [
         [
             {

@@ -2,8 +2,9 @@
 import obd
 from widgets import widgets
 from PyQt5 import QtCore, QtWidgets, QtGui
-import syncdata
-import thread
+from syncdata import SyncData, OBD2Data
+from rmqpublisher import RMQPublisher
+from json import dumps, loads, JSONEncoder, JSONDecoder
 
 class Widget(QtWidgets.QWidget):
 
@@ -20,6 +21,8 @@ class Widget(QtWidgets.QWidget):
         # make the context menu
         self.menu = QtWidgets.QMenu()
         self.menu.addAction(self.config["sensor"]).setDisabled(True)
+
+        self.RMQ = self.config["rmqpublisher"]
 
         subMenu = self.menu.addMenu("Widget Type")
         for w in widgets:
@@ -105,6 +108,7 @@ class Widget(QtWidgets.QWidget):
             if hasattr(response, 'message'):
                 actValue = response.message
 
-            thread.start_new_thread(syncdata.SyncData.postData,
-            (infotype=infoType, stringvalue=strValue, numericvalue=numValue, actualvalue=actValue))
+            d = OBD2Data(time.time(), infotype, stringvalue, numericvalue, actualvalue)
+            self.RMQ.start_publishing(d)
+
             self.graphics.render(response)
