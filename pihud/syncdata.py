@@ -14,8 +14,7 @@ class SyncData():
     		"THROTTLE_POS", "COMMANDED_EQUIV_RATIO", "MAF", "INTAKE_TEMP", "COOLANT_TEMP",
     		"CONTROL_MODULE_VOLTAGE", "TIMING_ADVANCE", "RUN_TIME"]
 
-    def postData(infotype, stringvalue, numericvalue, actualvalue):
-        d = OBD2Data(time.time(), infotype, stringvalue, numericvalue, actualvalue)
+    def postData(d):
         jsonStr = dumps(d.__dict__)
         print(jsonStr)
         url = "https://dyntechsolution.info/car/cartracker/" + infotype
