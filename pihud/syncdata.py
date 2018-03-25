@@ -17,7 +17,7 @@ class SyncData():
     def postData(d):
         jsonStr = dumps(d.__dict__)
         print(jsonStr)
-        url = "https://dyntechsolution.info/car/cartracker/" + infotype
+        url = "https://car.dyntechsolution.info/cartracker/" + infotype
         print(url)
         data = jsonStr
 

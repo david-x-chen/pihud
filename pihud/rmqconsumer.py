@@ -266,7 +266,7 @@ class ExampleConsumer(object):
         """
         LOGGER.info('Received message # %s from %s: %s',
                     basic_deliver.delivery_tag, properties.app_id, body)
-        SyncData(body)
+        SyncData.postData(body)
         self.acknowledge_message(basic_deliver.delivery_tag)
 
     def acknowledge_message(self, delivery_tag):
