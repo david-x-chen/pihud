@@ -9,6 +9,7 @@ from PiHud import PiHud
 from PyQt5 import QtGui, QtWidgets
 from GlobalConfig import GlobalConfig
 from rmqpublisher import RMQPublisher
+import threading
 
 try:
     import RPi.GPIO as GPIO
@@ -27,6 +28,18 @@ config_path         = os.path.join(os.path.expanduser('~'), 'pihud.rc')
 
 # custom font
 custom_font_path    = os.path.join(running_dir, 'fonts/digital-dismay/Digital Dismay.otf')
+
+def rmq_publish(global_config):
+        # Connect to localhost:5672 as guest with the password guest and virtual host "/" (%2F)
+        rmq = RMQPublisher(global_config["rmq_conn"])
+
+        global_config["rmqpublisher"] = rmq
+
+        try:
+            rmq.run()
+        except KeyboardInterrupt:
+            rmq.stop()
+
 
 def main():
     """ entry point """
@@ -52,15 +65,8 @@ def main():
 
     connection = obd.Async(global_config["port"])
 
-    # Connect to localhost:5672 as guest with the password guest and virtual host "/" (%2F)
-    rmq = RMQPublisher(global_config["rmq_conn"])
-
-    global_config["rmqpublisher"] = rmq
-
-    try:
-        rmq.run()
-    except KeyboardInterrupt:
-        rmq.stop()
+    rmqThreading = threading.Thread(name='rmq_publisher', target=rmq_publish, args=(global_config,))
+    rmqThreading.start()
 
     # if global_config["debug"]:
     #     for i in range(32):
