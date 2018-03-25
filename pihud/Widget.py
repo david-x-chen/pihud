@@ -1,4 +1,4 @@
-
+import time
 import obd
 from widgets import widgets
 from PyQt5 import QtCore, QtWidgets, QtGui
