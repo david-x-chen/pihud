@@ -221,9 +221,9 @@ class RMQPublisher(object):
         response from RabbitMQ. Since we know we're now setup and bound, it's
         time to start publishing."""
         LOGGER.info('Queue bound')
-        d = OBD2Data(str(time.time()), "infotype", "stringvalue", "numericvalue", "actualvalue")
+        #d = OBD2Data(str(time.time()), "infotype", "stringvalue", "numericvalue", "actualvalue")
         #self.start_publishing(d)
-        self.publish_message(d)
+        #self.publish_message(d)
 
     def start_publishing(self, obdData):
         """This method will enable delivery confirmations and schedule the

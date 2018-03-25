@@ -108,7 +108,7 @@ class Widget(QtWidgets.QWidget):
             if hasattr(response, 'message'):
                 actValue = response.message
 
-            d = OBD2Data(time.time(), infotype, stringvalue, numericvalue, actualvalue)
+            d = OBD2Data(time.time(), infoType, strValue, numValue, actValue)
             self.RMQ.start_publishing(d)
 
             self.graphics.render(response)
