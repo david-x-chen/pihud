@@ -40,7 +40,7 @@ class PiHud(QtWidgets.QMainWindow):
         else:
             a = subMenu.addAction("No sensors available")
             a.setDisabled(True)
-        
+
         self.menu.addSeparator()
 
         self.menu.addAction("New Page", self.__add_page)
@@ -101,7 +101,7 @@ class PiHud(QtWidgets.QMainWindow):
             self.connection.watch(widget.get_command())
 
         self.connection.start()
-        self.timer.start(1000/30, self)
+        self.timer.start(1000, self)
 
 
     def stop(self):
