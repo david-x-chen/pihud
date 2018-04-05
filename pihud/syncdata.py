@@ -15,7 +15,10 @@ class SyncData():
     		"CONTROL_MODULE_VOLTAGE", "TIMING_ADVANCE", "RUN_TIME"]
 
     def postData(d):
-        jsonStr = dumps(d.__dict__)
+        jsonStr = d.decode("utf-8")
+        jsondata = loads(jsonStr)
+        infotype = jsondata['infotype']
+        #jsonStr = dumps(jsondata.__dict__)
         print(jsonStr)
         url = "https://car.dyntechsolution.info/cartracker/" + infotype
         print(url)
